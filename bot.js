@@ -6,5 +6,5 @@ const mainFile = "./bot.js";
 
 simpleGit()
   .add([filePath, ignore, mainFile])
-  .commit("[chore] automate updated", { "--date": "2024-02-29" })
+  .commit("[chore] automate updated", { "--date": "2024-03-01" })
   .push();
