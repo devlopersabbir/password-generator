@@ -4,17 +4,21 @@ import { Input } from "./components/ui/input";
 import { useEffect, useState } from "react";
 import { Slider } from "./components/ui/slider";
 import { Switch } from "./components/ui/switch";
+import { combine, generateRandomString } from "./lib/utils";
 
 const App = () => {
   const [generatedPassword, setGeneratedPassword] = useState<string>("234dfa");
-  const [passwordLenght, setPasswordLenght] = useState<number>(20);
-  const [numbers, setNumbers] = useState<boolean>(false);
+  const [passwordLenght, setPasswordLenght] = useState<number[]>([4]);
+  const [numbers, setNumbers] = useState<boolean>(true);
   const [spacial, setSpacial] = useState<boolean>(false);
   const [uppercase, setUppercase] = useState<boolean>(false);
   const [lowercase, setLowercase] = useState<boolean>(false);
 
   function generate() {
-    console.log("fuck");
+    const combinedString = combine(uppercase, lowercase, numbers, spacial);
+    setGeneratedPassword(
+      generateRandomString(Number(passwordLenght.join("")), combinedString)
+    );
   }
   useEffect(() => {
     generate();
@@ -36,7 +40,7 @@ const App = () => {
               value={generatedPassword}
               disabled
               type="text"
-              className="w-full rounded-full"
+              className="w-full rounded-full text-lg disabled:font-bold disabled:text-zinc-900 font-semibold text-zinc-900 disabled:opacity-100"
             />
             <RotateCw
               onClick={generate}
@@ -60,8 +64,8 @@ const App = () => {
             Password Length: {passwordLenght}
           </label>
           <Slider
-            onValueChange={(e) => console.log(e)}
-            max={100}
+            onValueChange={(e) => setPasswordLenght(e)}
+            max={20}
             min={2}
             step={1}
             className="w-3/4"
