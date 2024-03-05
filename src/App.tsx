@@ -75,7 +75,16 @@ const App = () => {
                 Password Length: {passwordLenght}
               </label>
               <div className="flex justify-between items-center w-full gap-2">
-                <img src="/drc.svg" alt="drc" />
+                <img
+                  src="/drc.svg"
+                  alt="drc"
+                  className="cursor-pointer"
+                  onClick={() =>
+                    setPasswordLenght((state) =>
+                      state[0] > 2 ? [state[0] - 1] : [state[0]]
+                    )
+                  }
+                />
                 <Slider
                   onValueChange={(e) => setPasswordLenght(e)}
                   value={passwordLenght}
@@ -84,7 +93,16 @@ const App = () => {
                   step={1}
                   className="w-3/4"
                 />
-                <img src="/inc.svg" alt="inc" />
+                <img
+                  src="/inc.svg"
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setPasswordLenght((state) =>
+                      state[0] < 20 ? [state[0] + 1] : [state[0]]
+                    );
+                  }}
+                  alt="inc"
+                />
               </div>
             </div>
             {/* bottom section */}
