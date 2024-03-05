@@ -36,14 +36,14 @@ const App = () => {
         </p>
       </div>
       {/* main container */}
-      <div className="flex justify-center items-center gap-5 mt-7">
+      <div className="flex justify-center items-center gap-5 mt-7 container">
         {/* left side image */}
         <div className="flex items-center justify-center w-1/2">
           <img src="/img.svg" alt="image" className="w-3/4" />
         </div>
         {/* right side content */}
         <div className="flex flex-col justify-center items-center w-1/2">
-          <div className="flex flex-col gap-3 justify-center items-center">
+          <div className="flex flex-col gap-3 justify-center items-center w-4/5">
             {/* output section && copy section */}
             <div className="flex justify-between items-center w-full gap-4 mb-5">
               <div className="w-full rounded-full relative flex justify-center items-center">
@@ -51,7 +51,7 @@ const App = () => {
                   value={generatedPassword}
                   disabled
                   type="text"
-                  className="w-full rounded-full text-lg disabled:font-bold disabled:text-zinc-900 font-semibold text-zinc-900 disabled:opacity-100"
+                  className="text-center w-full rounded-full text-lg disabled:font-bold disabled:text-zinc-900 font-semibold text-zinc-900 disabled:opacity-100"
                 />
                 <RotateCw
                   onClick={generate}
@@ -65,8 +65,7 @@ const App = () => {
                   await navigator.clipboard.writeText(generatedPassword)
                 }
               >
-                <Copy className="mr-2" size={20} />
-                Copy
+                <Copy size={20} />
               </Button>
             </div>
 
@@ -75,13 +74,18 @@ const App = () => {
               <label className="font-semibold text-base">
                 Password Length: {passwordLenght}
               </label>
-              <Slider
-                onValueChange={(e) => setPasswordLenght(e)}
-                max={20}
-                min={2}
-                step={1}
-                className="w-3/4"
-              />
+              <div className="flex justify-between items-center w-full gap-2">
+                <img src="/drc.svg" alt="drc" />
+                <Slider
+                  onValueChange={(e) => setPasswordLenght(e)}
+                  value={passwordLenght}
+                  max={20}
+                  min={2}
+                  step={1}
+                  className="w-3/4"
+                />
+                <img src="/inc.svg" alt="inc" />
+              </div>
             </div>
             {/* bottom section */}
             <div className="flex flex-col mt-7 w-full">
