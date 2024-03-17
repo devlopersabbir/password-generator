@@ -8,7 +8,7 @@ import { combine, generateRandomString } from "./lib/utils";
 
 const App = () => {
   const [generatedPassword, setGeneratedPassword] = useState<string>("234dfa");
-  const [passwordLenght, setPasswordLenght] = useState<number[]>([4]);
+  const [passwordLength, setPasswordLenght] = useState<number[]>([4]);
   const [numbers, setNumbers] = useState<boolean>(true);
   const [spacial, setSpacial] = useState<boolean>(false);
   const [uppercase, setUppercase] = useState<boolean>(false);
@@ -16,13 +16,16 @@ const App = () => {
 
   function generate() {
     const combinedString = combine(uppercase, lowercase, numbers, spacial);
-    setGeneratedPassword(
-      generateRandomString(Number(passwordLenght.join("")), combinedString)
+    const newPassword = generateRandomString(
+      Number(passwordLength.join("")),
+      combinedString
     );
+    setGeneratedPassword(newPassword);
+    console.log("generated: ");
   }
   useEffect(() => {
     generate();
-  }, [passwordLenght, numbers, spacial, uppercase, lowercase]);
+  }, [passwordLength, numbers, spacial, uppercase, lowercase]);
   return (
     <div className="container mx-auto flex flex-col justify-center items-center h-screen">
       {/* top bar */}
@@ -49,9 +52,8 @@ const App = () => {
               <div className="w-full rounded-full relative flex justify-center items-center">
                 <Input
                   value={generatedPassword}
-                  disabled
                   type="text"
-                  className="text-center w-full rounded-full text-lg disabled:font-bold disabled:text-zinc-900 font-semibold text-zinc-900 disabled:opacity-100"
+                  className={`text-center w-full rounded-full text-lg disabled:font-bold disabled:text-zinc-900 font-semibold text-zinc-900 disabled:opacity-100 pointer-events-none`}
                 />
                 <RotateCw
                   onClick={generate}
@@ -61,9 +63,9 @@ const App = () => {
               </div>
               <Button
                 className="text-lg rounded-full"
-                onClick={async () =>
-                  await navigator.clipboard.writeText(generatedPassword)
-                }
+                onClick={async () => {
+                  await navigator.clipboard.writeText(generatedPassword);
+                }}
               >
                 <Copy size={20} />
               </Button>
@@ -72,7 +74,7 @@ const App = () => {
             {/* password length */}
             <div className="flex flex-col justify-center items-center gap-4 w-full">
               <label className="font-semibold text-base">
-                Password Length: {passwordLenght}
+                Password Length: {passwordLength}
               </label>
               <div className="flex justify-between items-center w-full gap-2">
                 <img
@@ -87,7 +89,7 @@ const App = () => {
                 />
                 <Slider
                   onValueChange={(e) => setPasswordLenght(e)}
-                  value={passwordLenght}
+                  value={passwordLength}
                   max={20}
                   min={2}
                   step={1}
