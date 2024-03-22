@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Slider } from "./components/ui/slider";
 import { Switch } from "./components/ui/switch";
 import { combine, generateRandomString } from "./lib/utils";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const App = () => {
   const [generatedPassword, setGeneratedPassword] = useState<string>("234dfa");
@@ -20,9 +22,24 @@ const App = () => {
       Number(passwordLength.join("")),
       combinedString
     );
-    setGeneratedPassword(newPassword);
-    console.log("generated: ");
+
+    // Animate the password change
+    const tl = gsap.timeline();
+    tl.to(".output", {
+      duration: 0.01,
+      opacity: 1,
+      stagger: 0.01,
+      onComplete: () => {
+        setGeneratedPassword(newPassword);
+        gsap.from(".output", {
+          duration: 0.01,
+          opacity: 0,
+          stagger: 0.01,
+        });
+      },
+    });
   }
+
   useEffect(() => {
     generate();
   }, [passwordLength, numbers, spacial, uppercase, lowercase]);
@@ -48,17 +65,22 @@ const App = () => {
         <div className="flex flex-col justify-center items-center w-1/2">
           <div className="flex flex-col gap-3 justify-center items-center w-4/5">
             {/* output section && copy section */}
-            <div className="flex justify-between items-center w-full gap-4 mb-5">
-              <div className="w-full rounded-full relative flex justify-center items-center">
-                <Input
-                  value={generatedPassword}
-                  type="text"
-                  className={`text-center w-full rounded-full text-lg disabled:font-bold disabled:text-zinc-900 font-semibold text-zinc-900 disabled:opacity-100 pointer-events-none`}
-                />
+            <div className="w-full h-12 flex justify-between items-center gap-4 mb-3 ">
+              <div className="w-full h-full rounded-full relative flex justify-center items-center">
+                <span className="border-[1px] overflow-hidden border-zinc-100 shadow-inner shadow-zinc-200 w-full h-full flex justify-center items-center rounded-full text-center">
+                  {generatedPassword.split("").map((char, index) => (
+                    <h2
+                      key={index}
+                      className="text-center flex justify-center items-center font-bold text-xl output"
+                    >
+                      {char}
+                    </h2>
+                  ))}
+                </span>
                 <RotateCw
                   onClick={generate}
                   size={24}
-                  className="absolute right-3 font-bold top-2 cursor-pointer"
+                  className="absolute font-bold cursor-pointer right-3"
                 />
               </div>
               <Button
