@@ -1,12 +1,10 @@
 import { Copy, RotateCw } from "lucide-react";
 import { Button } from "./components/ui/button";
-import { Input } from "./components/ui/input";
 import { useEffect, useState } from "react";
 import { Slider } from "./components/ui/slider";
 import { Switch } from "./components/ui/switch";
 import { combine, generateRandomString } from "./lib/utils";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 
 const App = () => {
   const [generatedPassword, setGeneratedPassword] = useState<string>("234dfa");
